@@ -19,15 +19,27 @@ output() {
 }
 
 output "Setting up Incoming ping requests"
+output
 iptables -I INPUT -p icmp --icmp-type echo-request -j DROP
 output "Setting up outgoing ping requests"
+output
 iptables -A OUTPUT -p icmp --icmp-type echo-request -j DROP
-
-output "Done Setting up IpTables"
+output "Limiting Apache Requests"
+output
+iptables -A INPUT -p tcp --dport 80 -m limit --limit 100/minute --limit-burst 200 -j ACCEPT
+output
+output "Making sure localnetwork is always allowed"
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+output
+output "Done Setting up Iptables now restarting iptables to make sure our new rules work."
+systemctl start iptables
 
 output
 
 output "Starting to install fail2ban"
+
+output 
 
 sudo apt install fail2ban
 

@@ -20,10 +20,11 @@ output() {
 
 output "Setting up Incoming ping requests"
 output
-iptables -I INPUT -p icmp --icmp-type echo-request -j DROP
+iptables -I INPUT -p icmp --icmp-type echo-request -j REJECT
 output "Setting up outgoing ping requests"
 output
-iptables -A OUTPUT -p icmp --icmp-type echo-request -j DROP
+iptables -A INPUT -pr icmp -i eth0 -j DROP
+iptables -A OUTPUT -p icmp --icmp-type echo-request -j REJECT
 output "Limiting Apache Requests"
 output
 iptables -A INPUT -p tcp --dport 80 -m limit --limit 100/minute --limit-burst 300 -j ACCEPT

@@ -32,9 +32,6 @@ output "Making sure localnetwork is always allowed"
 iptables -A INPUT -i lo -j ACCEPT
 iptables -A OUTPUT -o lo -j ACCEPT
 output
-output "Making sure redis mongo and mysql ports are closed"
-iptables -A INPUT -p tcp --destination-port 27017, 6379, 3306 -j DROP
-output
 output "Done Setting up Iptables now restarting iptables to make sure our new rules work."
 /sbin/iptables-save
 output

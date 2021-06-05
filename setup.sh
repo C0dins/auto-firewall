@@ -36,20 +36,4 @@ output "Done Setting up Iptables now restarting iptables to make sure our new ru
 /sbin/iptables-save
 output
 
-output "Starting to install fail2ban"
 
-output 
-
-sudo apt install fail2ban
-
-cat << EOF | sudo tee /etc/fail2ban/jail.d/ssh.local
-[sshd]
-enabled = true
-banaction = ufw
-port = ssh
-filter = sshd
-logpath = %(sshd_log)s
-maxretry = 5
-EOF
-
-output "Done setting up Fail2Ban"
